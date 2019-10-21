@@ -6,8 +6,14 @@ post = async (req, res, next) => {
     try {
         const { password, email, rmail } = config;
         console.log(req.body.subject + "\n" + req.body.message + "\n" + email + "\n" + password);
+
         var transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: "smtp-mail.outlook.com", // hostname
+            secureConnection: false, // TLS requires secureConnection to be false
+            port: 587, // port for secure SMTP
+            tls: {
+                ciphers: 'SSLv3'
+            },
             auth: {
                 user: email,
                 pass: password
@@ -21,8 +27,8 @@ post = async (req, res, next) => {
         };
         await transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                 console.log(error);
-                 res.status(500).jsonp('ERROR: ' + error.message);
+                console.log(error);
+                res.status(500).jsonp('ERROR: ' + error.message);
             } else {
                 console.log('Email sent: ' + info.response);
                 res.status(200).jsonp(req.body);

@@ -1,19 +1,14 @@
 const express = require('express');
-
 const morgan = require('morgan');
 const path = require('path');
 const routes = require('../routes/index.js');
-//const cors = require('cors')
 
 var config = require('../config/env')
-
 
 initialize = () => {
 
   const { host, port } = config;
   const app = express();
-
-  app.disable('x-powered-by');
 
   //Settings
   app.set('views', path.join(__dirname, 'views'));
